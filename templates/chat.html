@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - MindCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+
+        <div class="chat-header">
+            <div class="chat-header-left">
+                <div class="chat-avatar">🧠</div>
+                <div>
+                    <div class="chat-title">MindCare</div>
+                    <div class="chat-status">● Online</div>
+                </div>
+            </div>
+            <div class="chat-header-right">
+                <a href="/assessment" class="btn-secondary">Take Assessment</a>
+                <a href="/logout" class="btn-logout">Logout</a>
+            </div>
+        </div>
+
+        <div class="chat-body" id="chat-body">
+            <div class="msg bot">
+                <div class="bubble">
+                    Hello {{ name }}! 👋 I'm MindCare, your mental health support assistant. How are you feeling today?
+                </div>
+            </div>
+
+            {% for msg in messages %}
+            <div class="msg {{ msg['sender'] }}">
+                <div class="bubble">{{ msg['message'] }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="quick-replies">
+            <button class="qr" onclick="fillMsg('I feel anxious')">I feel anxious</button>
+            <button class="qr" onclick="fillMsg('I cannot sleep')">I can't sleep</button>
+            <button class="qr" onclick="fillMsg('I feel overwhelmed')">I feel overwhelmed</button>
+            <button class="qr" onclick="fillMsg('I need motivation')">I need motivation</button>
+        </div>
+
+        <form method="POST" class="chat-input">
+            <input
+                type="text"
+                name="message"
+                id="msg-input"
+                placeholder="Type a message..."
+                autocomplete="off"
+                required
+            />
+            <button type="submit" class="send-btn">Send</button>
+        </form>
+
+    </div>
+
+    <script>
+        const chatBody = document.getElementById('chat-body');
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+        function fillMsg(text) {
+            document.getElementById('msg-input').value = text;
+        }
+    </script>
+</body>
+</html>

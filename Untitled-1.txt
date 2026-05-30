@@ -1,0 +1,180 @@
+Excellent. Below is a **minimal but complete working version** of the Mental Health Support Chatbot. Create the files exactly as shown and paste the code into them.
+
+---
+
+# 1. app.py
+
+Create `app.py` in your project folder.
+
+```python
+from flask import Flask, render_template, request, redirect, url_for, session
+import sqlite3
+
+app = Flask(__name__)
+app.secret_key = "mentalhealthchatbot"
+
+# Create database
+def init_db():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        email TEXT,
+        password TEXT
+    )
+    ''')
+
+    c.execute('''
+    CREATE TABLE IF NOT EXISTS assessments(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT,
+        score INTEGER,
+        result TEXT
+    )
+    ''')
+
+    conn.commit()
+    conn.close()
+
+init_db()
+
+responses = {
+    "stress": "Try taking regular breaks, exercising and talking to someone you trust.",
+    "anxiety": "Practice deep breathing and mindfulness techniques.",
+    "depression": "Consider speaking to a counselor or mental health professional.",
+    "sad": "I'm sorry you're feeling sad. Remember that support is available.",
+    "happy": "That's great to hear! Keep taking care of yourself."
+}
+
+@app.route('/')
+def home():
+    return redirect('/login')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+
+        c.execute(
+            "INSERT INTO users(username,email,password) VALUES(?,?,?)",
+            (username,email,password)
+        )
+
+        conn.commit()
+        conn.close()
+
+        return redirect('/login')
+
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+
+        username = request.form['username']
+        password = request.form['password']
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+
+        c.execute(
+            "SELECT * FROM users WHERE username=? AND password=?",
+            (username,password)
+        )
+
+        user = c.fetchone()
+
+        conn.close()
+
+        if user:
+            session['username'] = username
+            return redirect('/chat')
+
+    return render_template('login.html')
+
+@app.route('/chat', methods=['GET','POST'])
+def chat():
+
+    if 'username' not in session:
+        return redirect('/login')
+
+    reply = ""
+
+    if request.method == 'POST':
+
+        user_message = request.form['message'].lower()
+
+        reply = "I'm here to support you. Could you tell me more?"
+
+        for keyword in responses:
+            if keyword in user_message:
+                reply = responses[keyword]
+
+    return render_template(
+        'chat.html',
+        username=session['username'],
+        reply=reply
+    )
+
+@app.route('/assessment', methods=['GET','POST'])
+def assessment():
+
+    if request.method == 'POST':
+
+        score = 0
+
+        answers = [
+            request.form['q1'],
+            request.form['q2'],
+            request.form['q3'],
+            request.form['q4'],
+            request.form['q5']
+        ]
+
+        for answer in answers:
+            score += int(answer)
+
+        if score <= 3:
+            result = "Low Risk"
+
+        elif score <= 7:
+            result = "Moderate Risk"
+
+        else:
+            result = "High Risk"
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+
+        c.execute(
+            "INSERT INTO assessments(username,score,result) VALUES(?,?,?)",
+            (session['username'], score, result)
+        )
+
+        conn.commit()
+        conn.close()
+
+        return render_template(
+            'result.html',
+            score=score,
+            result=result
+        )
+
+    return render_template('assessment.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/login')
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
