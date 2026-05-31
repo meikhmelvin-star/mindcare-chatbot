@@ -1,0 +1,94 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MindCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="background:#f8f9fb">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">🧠 MindCare</div>
+        <div class="nav-links">
+            <a href="/chat">Chat</a>
+            <a href="/assessment">Assessment</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout" class="nav-btn-outline">Logout</a>
+        </div>
+    </nav>
+
+    <div style="max-width:1100px;margin:2rem auto;padding:0 1rem">
+
+        <!-- WELCOME -->
+        <div style="background:linear-gradient(135deg,#534AB7,#764ba2);border-radius:20px;padding:2rem;color:#fff;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h1 style="font-size:26px;font-weight:800;margin-bottom:6px">
+                    Welcome back, {{ name }}! 👋
+                </h1>
+                <p style="font-size:15px;opacity:0.85">Here is a summary of your mental health journey.</p>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+                <a href="/chat" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(255,255,255,0.2);border-radius:10px;color:#fff;text-decoration:none;font-size:14px;font-weight:500">
+                    <i class="fa-solid fa-comments"></i> Start Chat
+                </a>
+                <a href="/assessment" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#fff;border-radius:10px;color:#534AB7;text-decoration:none;font-size:14px;font-weight:600">
+                    <i class="fa-solid fa-clipboard-check"></i> Take Assessment
+                </a>
+            </div>
+        </div>
+
+        <!-- STATS CARDS -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem">
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:36px;font-weight:800;color:#534AB7">{{ total_chats }}</div>
+                <div style="font-size:14px;color:#888;margin-top:4px">
+                    <i class="fa-solid fa-comments" style="color:#534AB7"></i> Total Messages
+                </div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:36px;font-weight:800;color:#0F6E56">{{ total_assessments }}</div>
+                <div style="font-size:14px;color:#888;margin-top:4px">
+                    <i class="fa-solid fa-clipboard-check" style="color:#0F6E56"></i> Assessments Taken
+                </div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:36px;font-weight:800;color:
+                    {% if latest_risk == 'Low' %}#3B6D11
+                    {% elif latest_risk == 'Moderate' %}#854F0B
+                    {% else %}#A32D2D{% endif %}">
+                    {{ latest_risk or 'N/A' }}
+                </div>
+                <div style="font-size:14px;color:#888;margin-top:4px">
+                    <i class="fa-solid fa-heart-pulse"></i> Latest Risk Level
+                </div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:36px;font-weight:800;color:#185FA5">{{ total_days }}</div>
+                <div style="font-size:14px;color:#888;margin-top:4px">
+                    <i class="fa-solid fa-calendar" style="color:#185FA5"></i> Days Since Joined
+                </div>
+            </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;flex-wrap:wrap">
+
+            <!-- ASSESSMENT HISTORY CHART -->
+            <div class="assess-card">
+                <h3 style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:1.5rem">
+                    <i class="fa-solid fa-chart-line" style="color:#534AB7"></i> Assessment Score History
+                </h3>
+                {% if assessments %}
+                <canvas id="scoreChart" height="120"></canvas>
+                {% else %}
+                <div style="text-align:center;padding:3rem;color:#aaa">
+                    <i class="fa-solid fa-chart-line" style="font-size:40px;margin-bottom:1rem;display:block"></i>
+                    <p style="font-size
+{% endif %}
+
+</body>
+</html>

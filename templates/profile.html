@@ -1,0 +1,114 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - MindCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background:#f8f9fb">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">🧠 MindCare</div>
+        <div class="nav-links">
+            <a href="/chat">Chat</a>
+            <a href="/assessment">Assessment</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout" class="nav-btn-outline">Logout</a>
+        </div>
+    </nav>
+
+    <div style="max-width:800px;margin:2rem auto;padding:0 1rem">
+
+        <!-- PAGE TITLE -->
+        <div style="margin-bottom:1.5rem">
+            <h1 style="font-size:26px;font-weight:800;color:#1a1a2e">
+                <i class="fa-solid fa-user-circle" style="color:#534AB7"></i> My Profile
+            </h1>
+            <p style="font-size:14px;color:#888;margin-top:4px">Manage your account information</p>
+        </div>
+
+        <!-- SUCCESS / ERROR MESSAGES -->
+        {% if success %}
+        <div style="background:#E1F5EE;border:1px solid #5DCAA5;border-radius:10px;padding:14px;margin-bottom:1.5rem;color:#0F6E56;font-size:14px">
+            <i class="fa-solid fa-circle-check"></i> {{ success }}
+        </div>
+        {% endif %}
+        {% if error %}
+        <div style="background:#FCEBEB;border:1px solid #F09595;border-radius:10px;padding:14px;margin-bottom:1.5rem;color:#A32D2D;font-size:14px">
+            <i class="fa-solid fa-circle-exclamation"></i> {{ error }}
+        </div>
+        {% endif %}
+
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:1.5rem;flex-wrap:wrap">
+
+            <!-- PROFILE CARD -->
+            <div>
+                <div class="assess-card" style="text-align:center">
+                    <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#534AB7,#764ba2);display:flex;align-items:center;justify-content:center;font-size:36px;color:#fff;margin:0 auto 1rem;font-weight:700">
+                        {{ name[0].upper() }}
+                    </div>
+                    <h3 style="font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:4px">{{ name }}</h3>
+                    <p style="font-size:13px;color:#888;margin-bottom:1rem">{{ email }}</p>
+                    <div style="background:#EEEDFE;border-radius:8px;padding:8px;font-size:13px;color:#534AB7">
+                        <i class="fa-solid fa-calendar"></i> Member since 2026
+                    </div>
+                </div>
+
+                <!-- QUICK LINKS -->
+                <div class="assess-card" style="margin-top:1rem">
+                    <h4 style="font-size:14px;font-weight:600;color:#1a1a2e;margin-bottom:1rem">Quick Links</h4>
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                        <a href="/chat" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:#f8f9fb;text-decoration:none;color:#444;font-size:14px">
+                            <i class="fa-solid fa-comments" style="color:#534AB7"></i> Go to Chat
+                        </a>
+                        <a href="/assessment" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:#f8f9fb;text-decoration:none;color:#444;font-size:14px">
+                            <i class="fa-solid fa-clipboard-check" style="color:#0F6E56"></i> Take Assessment
+                        </a>
+                        <a href="/dashboard" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:#f8f9fb;text-decoration:none;color:#444;font-size:14px">
+                            <i class="fa-solid fa-chart-line" style="color:#854F0B"></i> View Dashboard
+                        </a>
+                        <a href="/history" style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:#f8f9fb;text-decoration:none;color:#444;font-size:14px">
+                            <i class="fa-solid fa-clock-rotate-left" style="color:#185FA5"></i> Assessment History
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EDIT PROFILE FORM -->
+            <div>
+                <div class="assess-card">
+                    <h3 style="font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:1.5rem">
+                        <i class="fa-solid fa-pen-to-square" style="color:#534AB7"></i> Edit Profile
+                    </h3>
+                    <form method="POST" action="/profile">
+                        <input type="hidden" name="action" value="update_profile" />
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-user"></i> Full Name</label>
+                            <input type="text" name="name" value="{{ name }}" required />
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-envelope"></i> Email Address</label>
+                            <input type="email" name="email" value="{{ email }}" required />
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- CHANGE PASSWORD -->
+                <div class="assess-card" style="margin-top:1.5rem">
+                    <h3 style="font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:1.5rem">
+                        <i class="fa-solid fa-lock" style="color:#534AB7"></i> Change Password
+                    </h3>
+                    <form method="POST" action="/profile">
+                        <input type="hidden" name="action" value="change_password" />
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-lock"></i> Current Password</label>
+                            <input type="password" name="current_password" placeholder="••••••••" required />
+                        </div>
+                        <div class="form-group">

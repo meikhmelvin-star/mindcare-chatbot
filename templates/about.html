@@ -1,0 +1,154 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - MindCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="home-body">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">🧠 MindCare</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/contact">Contact</a>
+            <a href="/login" class="nav-btn-outline">Sign In</a>
+            <a href="/register" class="nav-btn-fill">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section style="background:linear-gradient(135deg,#f8f7ff,#fff);padding:5% 5%;text-align:center">
+        <div class="section-tag"><i class="fa-solid fa-heart-pulse"></i> Our Story</div>
+        <h1 style="font-size:42px;font-weight:800;color:#1a1a2e;margin:1rem 0">About MindCare</h1>
+        <p style="font-size:17px;color:#666;max-width:600px;margin:0 auto;line-height:1.7">
+            We built MindCare because we believe everyone deserves access to mental health support — anytime, anywhere, for free.
+        </p>
+    </section>
+
+    <!-- MISSION -->
+    <section style="padding:5% 5%;background:#fff">
+        <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:4rem;flex-wrap:wrap">
+            <div style="flex:1;min-width:280px">
+                <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=500&auto=format&fit=crop"
+                     alt="Our Mission" style="width:100%;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.1)" />
+            </div>
+            <div style="flex:1;min-width:280px">
+                <div class="section-tag">Our Mission</div>
+                <h2 style="font-size:32px;font-weight:800;color:#1a1a2e;margin:1rem 0">
+                    Making Mental Health Support Accessible to All
+                </h2>
+                <p style="font-size:15px;color:#666;line-height:1.7;margin-bottom:1rem">
+                    Mental health challenges affect millions of people worldwide, yet many never get the help they need due to cost, stigma, or lack of access. MindCare was built to change that.
+                </p>
+                <p style="font-size:15px;color:#666;line-height:1.7">
+                    Our platform provides a safe, private space where anyone can talk about how they're feeling, take mental health assessments, and get pointed toward professional help when needed.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- VALUES -->
+    <section style="padding:5% 5%;background:#f8f9fb">
+        <div style="max-width:1100px;margin:0 auto;text-align:center">
+            <div class="section-tag">Our Values</div>
+            <h2 style="font-size:32px;font-weight:800;color:#1a1a2e;margin:1rem 0 0.5rem">What We Stand For</h2>
+            <p style="font-size:15px;color:#888;margin-bottom:3rem">Everything we do is guided by these core principles</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#EEEDFE;color:#534AB7">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>Your conversations are completely private. We never share your data with anyone, ever.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#E1F5EE;color:#0F6E56">
+                        <i class="fa-solid fa-hands-holding-heart"></i>
+                    </div>
+                    <h3>Compassion</h3>
+                    <p>We approach every interaction with empathy, care and zero judgment.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#FAEEDA;color:#854F0B">
+                        <i class="fa-solid fa-universal-access"></i>
+                    </div>
+                    <h3>Accessibility</h3>
+                    <p>Free, available 24/7 and designed to work on any device — for everyone.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#E6F1FB;color:#185FA5">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3>Safety</h3>
+                    <p>We take your wellbeing seriously and always point you to professional help when needed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section style="padding:5% 5%;background:#fff">
+        <div style="max-width:1100px;margin:0 auto;text-align:center">
+            <div class="section-tag">The Team</div>
+            <h2 style="font-size:32px;font-weight:800;color:#1a1a2e;margin:1rem 0 0.5rem">Built by People Who Care</h2>
+            <p style="font-size:15px;color:#888;margin-bottom:3rem">A passionate team dedicated to mental health support</p>
+
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px">
+                <div class="feature-card" style="text-align:center">
+                    <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&auto=format&fit=crop"
+                         style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;display:block;border:3px solid #EEEDFE" />
+                    <h3 style="font-size:16px;margin-bottom:4px">Dr. Sarah Mwangi</h3>
+                    <p style="font-size:13px;color:#534AB7;margin-bottom:8px">Mental Health Advisor</p>
+                    <p style="font-size:13px;color:#888">Certified psychologist with 10 years experience in digital mental health.</p>
+                </div>
+                <div class="feature-card" style="text-align:center">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&auto=format&fit=crop"
+                         style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;display:block;border:3px solid #EEEDFE" />
+                    <h3 style="font-size:16px;margin-bottom:4px">James Odhiambo</h3>
+                    <p style="font-size:13px;color:#534AB7;margin-bottom:8px">Lead Developer</p>
+                    <p style="font-size:13px;color:#888">Full-stack developer passionate about building tech for social good.</p>
+                </div>
+                <div class="feature-card" style="text-align:center">
+                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=100&auto=format&fit=crop"
+                         style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin:0 auto 1rem;display:block;border:3px solid #EEEDFE" />
+                    <h3 style="font-size:16px;margin-bottom:4px">Amina Hassan</h3>
+                    <p style="font-size:13px;color:#534AB7;margin-bottom:8px">UX Designer</p>
+                    <p style="font-size:13px;color:#888">Designs intuitive experiences that put user wellbeing first.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>Ready to Start Your Wellness Journey?</h2>
+        <p>Join MindCare today. It's free, private and always here for you.</p>
+        <a href="/register" class="btn-hero-primary" style="display:inline-flex;margin-top:1.5rem">
+            <i class="fa-solid fa-rocket"></i> Create Free Account
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo">🧠 MindCare</div>
+            <p class="footer-text">Your mental health companion. Always here, always free.</p>
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+                <a href="/login">Sign In</a>
+                <a href="/register">Register</a>
+            </div>
+            <p class="footer-copy">© 2026 MindCare. Built with ❤️ for better mental health.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

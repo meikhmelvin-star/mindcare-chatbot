@@ -38,6 +38,15 @@ def init_db():
             date TEXT DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS moods (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            mood TEXT NOT NULL,
+            note TEXT,
+            date TEXT DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
     conn.commit()
     conn.close()
 
@@ -45,7 +54,22 @@ def init_db():
 def home():
     if 'user_id' in session:
         return redirect(url_for('chat'))
-    return redirect(url_for('login'))
+    return render_template('home.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    success = False
+    if request.method == 'POST':
+        success = True
+    return render_template('contact.html', success=success)
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -110,23 +134,23 @@ def chat():
 def get_bot_reply(msg):
     msg = msg.lower()
     if any(w in msg for w in ['anxious', 'anxiety', 'nervous', 'panic']):
-        return "I hear you. Anxiety can feel overwhelming. Try taking 5 slow deep breaths — inhale for 4 counts, hold for 4, exhale for 6. Would you like to talk more about what's causing it?"
+        return "I hear you. Anxiety can feel overwhelming. Try taking 5 slow deep breaths — inhale for 4 counts, hold for 4, exhale for 6. Would you like to talk more about what is causing it?"
     elif any(w in msg for w in ['sleep', 'insomnia', 'tired', 'exhausted']):
         return "Sleep problems really affect everything. Try keeping a consistent bedtime and avoiding screens 1 hour before bed. What does your bedtime routine look like?"
     elif any(w in msg for w in ['sad', 'depress', 'hopeless', 'empty', 'cry']):
-        return "I'm sorry you're feeling this way. Your feelings are valid. Would you like to share more about what's been going on?"
+        return "I am sorry you are feeling this way. Your feelings are valid. Would you like to share more about what has been going on?"
     elif any(w in msg for w in ['stress', 'stressed', 'pressure']):
-        return "Stress is your mind's signal that something needs attention. Regular breaks and talking about it really help. What's been most stressful lately?"
+        return "Stress is your mind signal that something needs attention. Regular breaks and talking about it really help. What has been most stressful lately?"
     elif any(w in msg for w in ['overwhelm', 'too much', 'cant cope']):
-        return "Feeling overwhelmed is a sign you're carrying a lot. Try writing everything down, then pick just one small thing to tackle first. What's weighing on you most?"
+        return "Feeling overwhelmed is a sign you are carrying a lot. Try writing everything down, then pick just one small thing to tackle first. What is weighing on you most?"
     elif any(w in msg for w in ['motivat', 'lazy', 'stuck', 'unmotivated']):
-        return "Lack of motivation often means your mind needs rest or a fresh purpose. Start tiny — just 5 minutes on something you care about. What feels most stuck?"
+        return "Lack of motivation often means your mind needs rest or a fresh purpose. Start tiny, just 5 minutes on something you care about. What feels most stuck?"
     elif any(w in msg for w in ['happy', 'good', 'great', 'better', 'fine']):
-        return "That's wonderful to hear! Positive moments matter. What's been going well for you?"
+        return "That is wonderful to hear! Positive moments matter. What has been going well for you?"
     elif any(w in msg for w in ['hello', 'hi', 'hey']):
-        return "Hello! I'm MindCare, your mental health support assistant. How are you feeling today?"
+        return "Hello! I am MindCare, your mental health support assistant. How are you feeling today?"
     else:
-        return "Thank you for sharing that with me. I'm here to listen. Can you tell me more about how you've been feeling?"
+        return "Thank you for sharing that with me. I am here to listen. Can you tell me more about how you have been feeling?"
 
 @app.route('/assessment', methods=['GET', 'POST'])
 def assessment():
@@ -150,6 +174,182 @@ def assessment():
         result = {'score': score, 'risk_level': risk_level}
     return render_template('assessment.html', result=result, name=session['user_name'])
 
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    conn = get_db()
+    user = conn.execute('SELECT * FROM users WHERE id = ?',
+                        (session['user_id'],)).fetchone()
+    success = None
+    error = None
+    if request.method == 'POST':
+        action = request.form.get('action')
+        if action == 'update_profile':
+            name = request.form['name']
+            email = request.form['email']
+            try:
+                conn.execute('UPDATE users SET name = ?, email = ? WHERE id = ?',
+                             (name, email, session['user_id']))
+                conn.commit()
+                session['user_name'] = name
+                success = 'Profile updated successfully!'
+                user = conn.execute('SELECT * FROM users WHERE id = ?',
+                                    (session['user_id'],)).fetchone()
+            except sqlite3.IntegrityError:
+                error = 'That email is already in use.'
+        elif action == 'change_password':
+            current = request.form['current_password']
+            new = request.form['new_password']
+            confirm = request.form['confirm_password']
+            if user['password'] != current:
+                error = 'Current password is incorrect.'
+            elif new != confirm:
+                error = 'New passwords do not match.'
+            else:
+                conn.execute('UPDATE users SET password = ? WHERE id = ?',
+                             (new, session['user_id']))
+                conn.commit()
+                success = 'Password updated successfully!'
+        elif action == 'delete_account':
+            conn.execute('DELETE FROM users WHERE id = ?', (session['user_id'],))
+            conn.execute('DELETE FROM chats WHERE user_id = ?', (session['user_id'],))
+            conn.execute('DELETE FROM assessments WHERE user_id = ?', (session['user_id'],))
+            conn.commit()
+            conn.close()
+            session.clear()
+            return redirect(url_for('login'))
+    conn.close()
+    return render_template('profile.html',
+                           name=user['name'],
+                           email=user['email'],
+                           success=success,
+                           error=error)
+
+@app.route('/dashboard')
+def dashboard():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    conn = get_db()
+    total_chats = conn.execute('SELECT COUNT(*) FROM chats WHERE user_id = ?',
+                               (session['user_id'],)).fetchone()[0]
+    total_assessments = conn.execute('SELECT COUNT(*) FROM assessments WHERE user_id = ?',
+                                     (session['user_id'],)).fetchone()[0]
+    latest = conn.execute('SELECT risk_level FROM assessments WHERE user_id = ? ORDER BY id DESC LIMIT 1',
+                          (session['user_id'],)).fetchone()
+    latest_risk = latest['risk_level'] if latest else None
+    assessments = conn.execute('SELECT * FROM assessments WHERE user_id = ? ORDER BY id DESC',
+                               (session['user_id'],)).fetchall()
+    recent_chats = conn.execute('SELECT * FROM chats WHERE user_id = ? ORDER BY id DESC LIMIT 5',
+                                (session['user_id'],)).fetchall()
+    conn.close()
+    assessment_dates = [a['date'][:10] for a in reversed(list(assessments))]
+    assessment_scores = [a['score'] for a in reversed(list(assessments))]
+    from datetime import date
+    total_days = (date.today() - date(2026, 1, 1)).days
+    return render_template('dashboard.html',
+                           name=session['user_name'],
+                           total_chats=total_chats,
+                           total_assessments=total_assessments,
+                           latest_risk=latest_risk,
+                           assessments=assessments,
+                           recent_chats=recent_chats,
+                           assessment_dates=assessment_dates,
+                           assessment_scores=assessment_scores,
+                           total_days=total_days)
+
+@app.route('/history')
+def history():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    conn = get_db()
+    assessments = conn.execute(
+        'SELECT * FROM assessments WHERE user_id = ? ORDER BY id DESC',
+        (session['user_id'],)).fetchall()
+    conn.close()
+    total = len(assessments)
+    low_count = sum(1 for a in assessments if a['risk_level'] == 'Low')
+    mod_count = sum(1 for a in assessments if a['risk_level'] == 'Moderate')
+    high_count = sum(1 for a in assessments if a['risk_level'] == 'High')
+    latest_risk = assessments[0]['risk_level'] if assessments else None
+    return render_template('history.html',
+                           assessments=assessments,
+                           total=total,
+                           low_count=low_count,
+                           mod_count=mod_count,
+                           high_count=high_count,
+                           latest_risk=latest_risk)
+
+@app.route('/mood', methods=['GET', 'POST'])
+def mood():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    conn = get_db()
+    success = None
+    if request.method == 'POST':
+        mood_val = request.form.get('mood')
+        note = request.form.get('note', '')
+        conn.execute('INSERT INTO moods (user_id, mood, note) VALUES (?, ?, ?)',
+                     (session['user_id'], mood_val, note))
+        conn.commit()
+        success = 'Mood logged successfully!'
+    moods = conn.execute('SELECT * FROM moods WHERE user_id = ? ORDER BY id DESC',
+                         (session['user_id'],)).fetchall()
+    conn.close()
+    mood_map = {'Amazing': 5, 'Good': 4, 'Okay': 3, 'Bad': 2, 'Terrible': 1}
+    mood_dates = [m['date'][:10] for m in reversed(list(moods))]
+    mood_scores = [mood_map.get(m['mood'], 3) for m in reversed(list(moods))]
+    mood_counts = {
+        'Amazing': sum(1 for m in moods if m['mood'] == 'Amazing'),
+        'Good': sum(1 for m in moods if m['mood'] == 'Good'),
+        'Okay': sum(1 for m in moods if m['mood'] == 'Okay'),
+        'Bad': sum(1 for m in moods if m['mood'] == 'Bad'),
+        'Terrible': sum(1 for m in moods if m['mood'] == 'Terrible')
+    }
+    most_common = max(mood_counts, key=mood_counts.get) if moods else None
+    return render_template('mood.html',
+                           moods=moods,
+                           mood_dates=mood_dates,
+                           mood_scores=mood_scores,
+                           mood_counts=mood_counts,
+                           most_common=most_common,
+                           success=success)
+@app.route('/admin')
+def admin():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    conn = get_db()
+    users_raw = conn.execute('SELECT * FROM users').fetchall()
+    users = []
+    for u in users_raw:
+        assessment_count = conn.execute('SELECT COUNT(*) FROM assessments WHERE user_id = ?', (u['id'],)).fetchone()[0]
+        chat_count = conn.execute('SELECT COUNT(*) FROM chats WHERE user_id = ?', (u['id'],)).fetchone()[0]
+        latest = conn.execute('SELECT risk_level FROM assessments WHERE user_id = ? ORDER BY id DESC LIMIT 1', (u['id'],)).fetchone()
+        latest_risk = latest['risk_level'] if latest else None
+        users.append({
+            'id': u['id'],
+            'name': u['name'],
+            'email': u['email'],
+            'assessment_count': assessment_count,
+            'chat_count': chat_count,
+            'latest_risk': latest_risk
+        })
+    total_users = len(users)
+    total_assessments = conn.execute('SELECT COUNT(*) FROM assessments').fetchone()[0]
+    total_chats = conn.execute('SELECT COUNT(*) FROM chats').fetchone()[0]
+    high_risk = sum(1 for u in users if u['latest_risk'] == 'High')
+    high_risk_users = [u for u in users if u['latest_risk'] == 'High']
+    conn.close()
+    return render_template('admin.html',
+                           users=users,
+                           total_users=total_users,
+                           total_assessments=total_assessments,
+                           total_chats=total_chats,
+                           high_risk=high_risk,
+                           high_risk_users=high_risk_users)
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)

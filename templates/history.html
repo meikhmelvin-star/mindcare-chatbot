@@ -1,0 +1,145 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment History - MindCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background:#f8f9fb">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">🧠 MindCare</div>
+        <div class="nav-links">
+            <a href="/chat">Chat</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout" class="nav-btn-outline">Logout</a>
+        </div>
+    </nav>
+
+    <div style="max-width:800px;margin:2rem auto;padding:0 1rem">
+
+        <!-- PAGE TITLE -->
+        <div style="margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h1 style="font-size:26px;font-weight:800;color:#1a1a2e">
+                    <i class="fa-solid fa-clock-rotate-left" style="color:#534AB7"></i> Assessment History
+                </h1>
+                <p style="font-size:14px;color:#888;margin-top:4px">All your past mental health assessment results</p>
+            </div>
+            <a href="/assessment" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;width:auto;padding:10px 20px">
+                <i class="fa-solid fa-plus"></i> New Assessment
+            </a>
+        </div>
+
+        <!-- SUMMARY CARDS -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2rem">
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:32px;font-weight:800;color:#534AB7">{{ total }}</div>
+                <div style="font-size:13px;color:#888;margin-top:4px">Total Assessments</div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:32px;font-weight:800;color:#3B6D11">{{ low_count }}</div>
+                <div style="font-size:13px;color:#888;margin-top:4px">Low Risk</div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:32px;font-weight:800;color:#854F0B">{{ mod_count }}</div>
+                <div style="font-size:13px;color:#888;margin-top:4px">Moderate Risk</div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:32px;font-weight:800;color:#A32D2D">{{ high_count }}</div>
+                <div style="font-size:13px;color:#888;margin-top:4px">High Risk</div>
+            </div>
+        </div>
+
+        <!-- HISTORY LIST -->
+        {% if assessments %}
+        <div class="assess-card">
+            <h3 style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:1.5rem">
+                <i class="fa-solid fa-list" style="color:#534AB7"></i> All Results
+            </h3>
+            <div style="display:flex;flex-direction:column;gap:12px">
+                {% for a in assessments %}
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;border-radius:12px;background:#f8f9fb;border:1px solid #eee;flex-wrap:wrap;gap:1rem">
+                    <div style="display:flex;align-items:center;gap:16px">
+                        <div style="width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;
+                            {% if a['risk_level'] == 'Low' %}background:#EAF3DE;color:#3B6D11
+                            {% elif a['risk_level'] == 'Moderate' %}background:#FAEEDA;color:#854F0B
+                            {% else %}background:#FCEBEB;color:#A32D2D{% endif %}">
+                            {{ a['score'] }}
+                        </div>
+                        <div>
+                            <div style="font-size:14px;font-weight:600;color:#1a1a2e">Score: {{ a['score'] }} out of 15</div>
+                            <div style="font-size:12px;color:#aaa;margin-top:2px">
+                                <i class="fa-solid fa-calendar"></i> {{ a['date'][:16] }}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <span style="padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;
+                            {% if a['risk_level'] == 'Low' %}background:#EAF3DE;color:#3B6D11
+                            {% elif a['risk_level'] == 'Moderate' %}background:#FAEEDA;color:#854F0B
+                            {% else %}background:#FCEBEB;color:#A32D2D{% endif %}">
+                            {% if a['risk_level'] == 'Low' %}
+                            <i class="fa-solid fa-circle-check"></i>
+                            {% elif a['risk_level'] == 'Moderate' %}
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            {% else %}
+                            <i class="fa-solid fa-circle-xmark"></i>
+                            {% endif %}
+                            {{ a['risk_level'] }} Risk
+                        </span>
+                        <div style="width:80px;background:#eee;border-radius:8px;height:8px;overflow:hidden">
+                            <div style="height:100%;border-radius:8px;width:{{ (a['score']/15*100)|int }}%;
+                                {% if a['risk_level'] == 'Low' %}background:#639922
+                                {% elif a['risk_level'] == 'Moderate' %}background:#BA7517
+                                {% else %}background:#E24B4A{% endif %}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% else %}
+        <div class="assess-card" style="text-align:center;padding:4rem">
+            <i class="fa-solid fa-clipboard-list" style="font-size:48px;color:#ddd;margin-bottom:1rem;display:block"></i>
+            <h3 style="font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:0.5rem">No assessments yet</h3>
+            <p style="font-size:14px;color:#888;margin-bottom:1.5rem">Take your first mental health assessment to start tracking your progress.</p>
+            <a href="/assessment" class="btn-primary" style="display:inline-block;text-decoration:none;width:auto;padding:12px 28px">
+                <i class="fa-solid fa-clipboard-check"></i> Take First Assessment
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- ADVICE BASED ON HISTORY -->
+        {% if assessments %}
+        <div class="assess-card" style="margin-top:1.5rem;margin-bottom:2rem">
+            <h3 style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:1rem">
+                <i class="fa-solid fa-lightbulb" style="color:#854F0B"></i> Personalised Advice
+            </h3>
+            {% if latest_risk == 'Low' %}
+            <div style="background:#EAF3DE;border-radius:12px;padding:1.25rem;color:#3B6D11">
+                <p style="font-size:14px;line-height:1.7"><i class="fa-solid fa-circle-check"></i> <strong>Great job!</strong> Your assessments show low risk levels. Keep maintaining your healthy habits — regular exercise, good sleep, and staying connected with loved ones will help you maintain this positive trend.</p>
+            </div>
+            {% elif latest_risk == 'Moderate' %}
+            <div style="background:#FAEEDA;border-radius:12px;padding:1.25rem;color:#854F0B">
+                <p style="font-size:14px;line-height:1.7"><i class="fa-solid fa-circle-exclamation"></i> <strong>Keep going!</strong> You are experiencing some challenges. Consider practising mindfulness daily, talking to someone you trust, and prioritising sleep and exercise. You can improve your score!</p>
+            </div>
+            {% else %}
+            <div style="background:#FCEBEB;border-radius:12px;padding:1.25rem;color:#A32D2D">
+                <p style="font-size:14px;line-height:1.7"><i class="fa-solid fa-circle-xmark"></i> <strong>Please seek help.</strong> Your results suggest significant distress. We strongly encourage you to speak with a mental health professional. You are not alone — help is available.</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

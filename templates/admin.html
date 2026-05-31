@@ -1,0 +1,132 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MindCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background:#f8f9fb">
+
+    <nav class="navbar">
+        <div class="nav-logo">🧠 MindCare Admin</div>
+        <div class="nav-links">
+            <a href="/admin" style="color:#534AB7;font-weight:600">Dashboard</a>
+            <a href="/logout" class="nav-btn-outline">Logout</a>
+        </div>
+    </nav>
+
+    <div style="max-width:1100px;margin:2rem auto;padding:0 1rem">
+
+        <!-- TITLE -->
+        <div style="margin-bottom:1.5rem">
+            <h1 style="font-size:26px;font-weight:800;color:#1a1a2e">
+                <i class="fa-solid fa-shield-halved" style="color:#534AB7"></i> Admin Dashboard
+            </h1>
+            <p style="font-size:14px;color:#888;margin-top:4px">Overview of all users and their mental health data</p>
+        </div>
+
+        <!-- STATS -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem">
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:36px;font-weight:800;color:#534AB7">{{ total_users }}</div>
+                <div style="font-size:13px;color:#888;margin-top:4px"><i class="fa-solid fa-users" style="color:#534AB7"></i> Total Users</div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:36px;font-weight:800;color:#0F6E56">{{ total_assessments }}</div>
+                <div style="font-size:13px;color:#888;margin-top:4px"><i class="fa-solid fa-clipboard-check" style="color:#0F6E56"></i> Total Assessments</div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:36px;font-weight:800;color:#854F0B">{{ total_chats }}</div>
+                <div style="font-size:13px;color:#888;margin-top:4px"><i class="fa-solid fa-comments" style="color:#854F0B"></i> Total Messages</div>
+            </div>
+            <div class="assess-card" style="text-align:center">
+                <div style="font-size:36px;font-weight:800;color:#A32D2D">{{ high_risk }}</div>
+                <div style="font-size:13px;color:#888;margin-top:4px"><i class="fa-solid fa-triangle-exclamation" style="color:#A32D2D"></i> High Risk Users</div>
+            </div>
+        </div>
+
+        <!-- USERS TABLE -->
+        <div class="assess-card" style="margin-bottom:2rem">
+            <h3 style="font-size:17px;font-weight:700;color:#1a1a2e;margin-bottom:1.5rem">
+                <i class="fa-solid fa-users" style="color:#534AB7"></i> All Users
+            </h3>
+            <div style="overflow-x:auto">
+                <table style="width:100%;border-collapse:collapse;font-size:14px">
+                    <thead>
+                        <tr style="background:#f8f9fb;border-bottom:2px solid #eee">
+                            <th style="padding:12px 16px;text-align:left;color:#888;font-weight:600">ID</th>
+                            <th style="padding:12px 16px;text-align:left;color:#888;font-weight:600">Name</th>
+                            <th style="padding:12px 16px;text-align:left;color:#888;font-weight:600">Email</th>
+                            <th style="padding:12px 16px;text-align:left;color:#888;font-weight:600">Assessments</th>
+                            <th style="padding:12px 16px;text-align:left;color:#888;font-weight:600">Latest Risk</th>
+                            <th style="padding:12px 16px;text-align:left;color:#888;font-weight:600">Messages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr style="border-bottom:1px solid #f0f0f0">
+                            <td style="padding:12px 16px;color:#aaa">{{ user.id }}</td>
+                            <td style="padding:12px 16px">
+                                <div style="display:flex;align-items:center;gap:10px">
+                                    <div style="width:34px;height:34px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#534AB7">
+                                        {{ user.name[0].upper() }}
+                                    </div>
+                                    <span style="font-weight:500;color:#1a1a2e">{{ user.name }}</span>
+                                </div>
+                            </td>
+                            <td style="padding:12px 16px;color:#666">{{ user.email }}</td>
+                            <td style="padding:12px 16px;color:#666;text-align:center">{{ user.assessment_count }}</td>
+                            <td style="padding:12px 16px">
+                                {% if user.latest_risk %}
+                                <span style="padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;
+                                    {% if user.latest_risk == 'Low' %}background:#EAF3DE;color:#3B6D11
+                                    {% elif user.latest_risk == 'Moderate' %}background:#FAEEDA;color:#854F0B
+                                    {% else %}background:#FCEBEB;color:#A32D2D{% endif %}">
+                                    {{ user.latest_risk }}
+                                </span>
+                                {% else %}
+                                <span style="color:#aaa;font-size:13px">No data</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding:12px 16px;color:#666;text-align:center">{{ user.chat_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- HIGH RISK ALERT -->
+        {% if high_risk_users %}
+        <div class="assess-card" style="border:1.5px solid #F09595;margin-bottom:2rem">
+            <h3 style="font-size:17px;font-weight:700;color:#A32D2D;margin-bottom:1.5rem">
+                <i class="fa-solid fa-triangle-exclamation"></i> High Risk Users — Needs Attention
+            </h3>
+            <div style="display:flex;flex-direction:column;gap:10px">
+                {% for user in high_risk_users %}
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;background:#FCEBEB;border-radius:12px;flex-wrap:wrap;gap:8px">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <div style="width:40px;height:40px;border-radius:50%;background:#F09595;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff">
+                            {{ user.name[0].upper() }}
+                        </div>
+                        <div>
+                            <div style="font-size:14px;font-weight:600;color:#A32D2D">{{ user.name }}</div>
+                            <div style="font-size:12px;color:#c0392b">{{ user.email }}</div>
+                        </div>
+                    </div>
+                    <span style="padding:6px 16px;background:#A32D2D;color:#fff;border-radius:20px;font-size:13px;font-weight:600">
+                        <i class="fa-solid fa-triangle-exclamation"></i> High Risk
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>

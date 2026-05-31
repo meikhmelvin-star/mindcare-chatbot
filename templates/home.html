@@ -1,0 +1,187 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCare - Mental Health Support</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="home-body">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">🧠 MindCare</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="/login" class="nav-btn-outline">Sign In</a>
+            <a href="/register" class="nav-btn-fill">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fa-solid fa-heart-pulse"></i> Free Mental Health Support
+            </div>
+            <h1>You Don't Have to Face It Alone</h1>
+            <p>MindCare is your personal mental health companion. Chat anytime, take assessments, track your mood and get the support you deserve.</p>
+            <div class="hero-buttons">
+                <a href="/register" class="btn-hero-primary">
+                    <i class="fa-solid fa-rocket"></i> Get Started Free
+                </a>
+                <a href="/login" class="btn-hero-secondary">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-num">24/7</span>
+                    <span class="stat-label">Available</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-num">100%</span>
+                    <span class="stat-label">Private</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-num">Free</span>
+                    <span class="stat-label">Forever</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=600&auto=format&fit=crop" alt="Mental Health Support" />
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features" id="features">
+        <div class="features-inner">
+            <div class="section-tag">What We Offer</div>
+            <h2>Everything You Need to Feel Better</h2>
+            <p class="section-sub">Simple, private and always available tools to support your mental wellbeing.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#EEEDFE;color:#534AB7">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <h3>24/7 Chat Support</h3>
+                    <p>Talk to MindCare anytime about how you are feeling. No judgment, no waiting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#E1F5EE;color:#0F6E56">
+                        <i class="fa-solid fa-clipboard-check"></i>
+                    </div>
+                    <h3>Mental Health Assessment</h3>
+                    <p>Take a quick 5-question assessment and get your personalised risk analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#FAEEDA;color:#854F0B">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3>Mood Tracking</h3>
+                    <p>Log your daily mood and see your emotional patterns over time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#FCEBEB;color:#A32D2D">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <h3>100% Private</h3>
+                    <p>Your conversations are stored securely and never shared with anyone.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#E6F1FB;color:#185FA5">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>Smart Responses</h3>
+                    <p>MindCare understands your feelings and responds with helpful caring advice.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:#FBEAF0;color:#993556">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <h3>Crisis Resources</h3>
+                    <p>Get pointed to professional help when you need it most.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <div class="about-inner">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=500&auto=format&fit=crop" alt="About MindCare" />
+            </div>
+            <div class="about-content">
+                <div class="section-tag">About MindCare</div>
+                <h2>Built with Care, For People Who Care</h2>
+                <p>MindCare was created to make mental health support accessible to everyone. We believe that everyone deserves a safe space to talk about their feelings without fear or judgment.</p>
+                <p style="margin-top:1rem">Our platform combines the warmth of human conversation with the availability of technology so you always have someone to talk to.</p>
+                <div class="about-points">
+                    <div class="about-point">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>Free and accessible to everyone</span>
+                    </div>
+                    <div class="about-point">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>No sign-up required to explore</span>
+                    </div>
+                    <div class="about-point">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>Evidence-based support strategies</span>
+                    </div>
+                    <div class="about-point">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>Available 24 hours, 7 days a week</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+        <h2>Ready to Start Your Wellness Journey?</h2>
+        <p>Join MindCare today. It is free, private and always here for you.</p>
+        <a href="/register" class="btn-hero-primary" style="display:inline-flex;margin-top:1.5rem">
+            <i class="fa-solid fa-rocket"></i> Create Free Account
+        </a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo">🧠 MindCare</div>
+            <p class="footer-text">Your mental health companion. Always here, always free.</p>
+            <div class="footer-links">
+                <a href="/login">Sign In</a>
+                <a href="/register">Register</a>
+<button onclick="toggleDark()" id="dark-btn" style="padding:7px 14px;border:1.5px solid #534AB7;border-radius:8px;background:none;color:#534AB7;font-size:13px;cursor:pointer">🌙</button>
+                <a href="#features">Features</a>
+                <a href="/about">About</a>
+                <a href="/contact">Contact</a>
+                <a href="/privacy">Privacy Policy</a>
+            </div>
+            <p class="footer-copy">© 2026 MindCare. Built with love for better mental health.</p>
+        </div>
+    </footer>
+<script>
+    if(localStorage.getItem('dark') === 'on') {
+        document.body.classList.add('dark');
+        document.getElementById('dark-btn').textContent = '☀️';
+    }
+    function toggleDark() {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('dark', isDark ? 'on' : 'off');
+        document.getElementById('dark-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+</script>
+</body>
+</html>

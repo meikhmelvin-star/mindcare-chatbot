@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat - MindCare</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+body.dark { background:#1a1a2e !important; color:#eee !important; }
+body.dark .chat-container { background:#16213e; }
+body.dark .chat-header { background:linear-gradient(135deg,#2d2560,#4a2d6e); }
+body.dark .bubble { background:#0f3460 !important; color:#eee !important; border-color:#2d2560 !important; }
+body.dark .msg.user .bubble { background:linear-gradient(135deg,#534AB7,#764ba2) !important; color:#fff !important; }
+body.dark .chat-input { background:#16213e; border-color:#2d2560; }
+body.dark .chat-input input { background:#0f3460; border-color:#2d2560; color:#eee; }
+body.dark .quick-replies { background:#16213e; border-color:#2d2560; }
+body.dark .qr { background:#0f3460; color:#AFA9EC; border-color:#2d2560; }
+body.dark .welcome-banner { background:linear-gradient(135deg,#2d2560,#4a2d6e); }
+</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="chat-container">
@@ -18,8 +31,23 @@
                 </div>
             </div>
             <div class="chat-header-right">
-                <a href="/assessment" class="btn-secondary">Take Assessment</a>
-                <a href="/logout" class="btn-logout">Logout</a>
+                <a href="/assessment" class="btn-secondary">
+                    <i class="fa-solid fa-clipboard-list"></i> Assessment
+                </a>
+<button onclick="toggleDark()" id="dark-btn" style="padding:7px 14px;border:1.5px solid rgba(255,255,255,0.4);border-radius:8px;background:none;color:white;font-size:13px;cursor:pointer">
+    🌙 Dark
+</button>
+                <a href="/logout" class="btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <div class="welcome-banner">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&auto=format&fit=crop" alt="Support" />
+            <div class="welcome-text">
+                <h3>Hello {{ name }}! 👋</h3>
+                <p>I'm here to listen and support you. How are you feeling today?</p>
             </div>
         </div>
 
@@ -38,10 +66,10 @@
         </div>
 
         <div class="quick-replies">
-            <button class="qr" onclick="fillMsg('I feel anxious')">I feel anxious</button>
-            <button class="qr" onclick="fillMsg('I cannot sleep')">I can't sleep</button>
-            <button class="qr" onclick="fillMsg('I feel overwhelmed')">I feel overwhelmed</button>
-            <button class="qr" onclick="fillMsg('I need motivation')">I need motivation</button>
+            <button class="qr" onclick="fillMsg('I feel anxious')">😰 I feel anxious</button>
+            <button class="qr" onclick="fillMsg('I cannot sleep')">😴 I can't sleep</button>
+            <button class="qr" onclick="fillMsg('I feel overwhelmed')">😤 I feel overwhelmed</button>
+            <button class="qr" onclick="fillMsg('I need motivation')">💪 I need motivation</button>
         </div>
 
         <form method="POST" class="chat-input">
@@ -53,7 +81,9 @@
                 autocomplete="off"
                 required
             />
-            <button type="submit" class="send-btn">Send</button>
+            <button type="submit" class="send-btn">
+                <i class="fa-solid fa-paper-plane"></i> Send
+            </button>
         </form>
 
     </div>
@@ -66,5 +96,123 @@
             document.getElementById('msg-input').value = text;
         }
     </script>
+<script>
+    if(localStorage.getItem('dark') === 'on') {
+        document.body.classList.add('dark');
+        document.getElementById('dark-btn').textContent = '☀️ Light';
+    }
+    function toggleDark() {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('dark', isDark ? 'on' : 'off');
+        document.getElementById('dark-btn').textContent = isDark ? '☀️ Light' : '🌙 Dark';
+    }
+</script>
+<!-- CRISIS MODAL -->
+<div id="crisis-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:999;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:20px;padding:2rem;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
+        <div style="font-size:48px;margin-bottom:1rem">🆘</div>
+        <h2 style="font-size:22px;font-weight:800;color:#A32D2D;margin-bottom:0.75rem">You Are Not Alone</h2>
+        <p style="font-size:14px;color:#666;line-height:1.7;margin-bottom:1.5rem">
+            It sounds like you may be going through something very difficult. Please reach out to a crisis helpline — they are available 24/7 and are here to help.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:1.5rem">
+            <a href="tel:0800723253" style="display:flex;align-items:center;gap:12px;padding:14px;background:#FCEBEB;border-radius:12px;text-decoration:none;color:#A32D2D;font-weight:600">
+                <i class="fa-solid fa-phone" style="font-size:18px"></i>
+                <div style="text-align:left">
+                    <div style="font-size:14px">Befrienders Kenya</div>
+                    <div style="font-size:13px;opacity:0.8">0800 723 253 — Free 24/7</div>
+                </div>
+            </a>
+            <a href="tel:0722178177" style="display:flex;align-items:center;gap:12px;padding:14px;background:#FCEBEB;border-radius:12px;text-decoration:none;color:#A32D2D;font-weight:600">
+                <i class="fa-solid fa-hospital" style="font-size:18px"></i>
+                <div style="text-align:left">
+                    <div style="font-size:14px">Mathare Hospital</div>
+                    <div style="font-size:13px;opacity:0.8">0722 178 177</div>
+                </div>
+            </a>
+            <a href="tel:116" style="display:flex;align-items:center;gap:12px;padding:14px;background:#FAEEDA;border-radius:12px;text-decoration:none;color:#854F0B;font-weight:600">
+                <i class="fa-solid fa-shield-heart" style="font-size:18px"></i>
+                <div style="text-align:left">
+                    <div style="font-size:14px">Kenya Child Helpline</div>
+                    <div style="font-size:13px;opacity:0.8">116 — Free 24/7</div>
+                </div>
+            </a>
+        </div>
+        <button onclick="closeCrisis()" style="width:100%;padding:12px;background:#534AB7;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer">
+            I am Safe — Close
+        </button>
+    </div>
+</div>
+
+<script>
+    const crisisWords = ['suicide', 'kill myself', 'end my life', 'want to die', 'cant go on',
+                         'no reason to live', 'better off dead', 'hurt myself', 'self harm',
+                         'hopeless', 'worthless', 'give up on life'];
+
+    const msgInput = document.getElementById('msg-input');
+    msgInput.addEventListener('input', function() {
+        const val = this.value.toLowerCase();
+        if (crisisWords.some(w => val.includes(w))) {
+            document.getElementById('crisis-modal').style.display = 'flex';
+        }
+    });
+
+    function closeCrisis() {
+        document.getElementById('crisis-modal').style.display = 'none';
+    }
+</script>
 </body>
 </html>
+/* DARK MODE */
+body.dark {
+    background: #1a1a2e !important;
+    color: #eee !important;
+}
+body.dark .navbar {
+    background: #16213e;
+    border-color: #2d2560;
+}
+body.dark .nav-logo {
+    color: #AFA9EC;
+}
+body.dark .nav-links a {
+    color: #aaa;
+}
+body.dark .assess-card {
+    background: #16213e;
+    border-color: #2d2560;
+}
+body.dark .feature-card {
+    background: #16213e;
+    box-shadow: none;
+}
+body.dark .form-group input {
+    background: #0f3460;
+    border-color: #2d2560;
+    color: #eee;
+}
+body.dark .auth-card {
+    background: #16213e;
+}
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4 {
+    color: #eee !important;
+}
+body.dark p {
+    color: #aaa;
+}
+body.dark .footer {
+    background: #0f3460;
+}
+body.dark .hero {
+    background: #1a1a2e;
+}
+body.dark .features {
+    background: #16213e;
+}
+body.dark .about {
+    background: #1a1a2e;
+}

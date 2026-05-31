@@ -1,0 +1,154 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - MindCare</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="home-body">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">🧠 MindCare</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/login" class="nav-btn-outline">Sign In</a>
+            <a href="/register" class="nav-btn-fill">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section style="background:linear-gradient(135deg,#f8f7ff,#fff);padding:5% 5%;text-align:center">
+        <div class="section-tag"><i class="fa-solid fa-envelope"></i> Get In Touch</div>
+        <h1 style="font-size:42px;font-weight:800;color:#1a1a2e;margin:1rem 0">Contact Us</h1>
+        <p style="font-size:17px;color:#666;max-width:600px;margin:0 auto;line-height:1.7">
+            Have a question, suggestion or need help? We'd love to hear from you. Fill in the form below and we'll get back to you as soon as possible.
+        </p>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section style="padding:5% 5%;background:#fff">
+        <div style="max-width:1100px;margin:0 auto;display:flex;gap:4rem;flex-wrap:wrap;align-items:flex-start">
+
+            <!-- CONTACT INFO -->
+            <div style="flex:1;min-width:260px">
+                <h2 style="font-size:26px;font-weight:800;color:#1a1a2e;margin-bottom:1.5rem">Get In Touch</h2>
+
+                <div style="display:flex;flex-direction:column;gap:1.5rem">
+                    <div style="display:flex;gap:16px;align-items:flex-start">
+                        <div class="feature-icon" style="background:#EEEDFE;color:#534AB7;width:48px;height:48px;min-width:48px;font-size:18px">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:4px">Email Us</h4>
+                            <p style="font-size:14px;color:#666">support@mindcare.com</p>
+                            <p style="font-size:13px;color:#aaa">We reply within 24 hours</p>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:16px;align-items:flex-start">
+                        <div class="feature-icon" style="background:#E1F5EE;color:#0F6E56;width:48px;height:48px;min-width:48px;font-size:18px">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:4px">Call Us</h4>
+                            <p style="font-size:14px;color:#666">+254 700 000 000</p>
+                            <p style="font-size:13px;color:#aaa">Mon - Fri, 8am to 6pm</p>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:16px;align-items:flex-start">
+                        <div class="feature-icon" style="background:#FAEEDA;color:#854F0B;width:48px;height:48px;min-width:48px;font-size:18px">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:4px">Location</h4>
+                            <p style="font-size:14px;color:#666">Nairobi, Kenya</p>
+                            <p style="font-size:13px;color:#aaa">Available worldwide online</p>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:16px;align-items:flex-start">
+                        <div class="feature-icon" style="background:#FCEBEB;color:#A32D2D;width:48px;height:48px;min-width:48px;font-size:18px">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:4px">Crisis Support</h4>
+                            <p style="font-size:14px;color:#666">Befrienders Kenya: 0800 723 253</p>
+                            <p style="font-size:13px;color:#aaa">Free 24/7 crisis helpline</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTACT FORM -->
+            <div style="flex:1.5;min-width:300px">
+                <div class="assess-card">
+                    <h3 style="font-size:20px;font-weight:700;color:#1a1a2e;margin-bottom:1.5rem">
+                        <i class="fa-solid fa-paper-plane" style="color:#534AB7"></i> Send us a Message
+                    </h3>
+
+                    {% if success %}
+                    <div style="background:#E1F5EE;border:1px solid #5DCAA5;border-radius:10px;padding:14px;margin-bottom:1.5rem;color:#0F6E56;font-size:14px">
+                        <i class="fa-solid fa-circle-check"></i> Thank you! Your message has been sent. We'll get back to you within 24 hours.
+                    </div>
+                    {% endif %}
+
+                    <form method="POST">
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-user"></i> Full Name</label>
+                            <input type="text" name="name" placeholder="Jane Doe" required />
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-envelope"></i> Email Address</label>
+                            <input type="email" name="email" placeholder="you@email.com" required />
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-tag"></i> Subject</label>
+                            <input type="text" name="subject" placeholder="How can we help?" required />
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-message"></i> Message</label>
+                            <textarea name="message" rows="5" placeholder="Write your message here..."
+                                style="width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:14px;outline:none;resize:vertical;font-family:inherit"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section style="padding:5% 5%;background:#f8f9fb">
+        <div style="max-width:700px;margin:0 auto;text-align:center">
+            <div class="section-tag">FAQ</div>
+            <h2 style="font-size:32px;font-weight:800;color:#1a1a2e;margin:1rem 0 2rem">Frequently Asked Questions</h2>
+
+            <div style="display:flex;flex-direction:column;gap:16px;text-align:left">
+                <div class="feature-card" style="padding:1.25rem 1.5rem">
+                    <h4 style="font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:6px">
+                        <i class="fa-solid fa-circle-question" style="color:#534AB7"></i> Is MindCare free to use?
+                    </h4>
+                    <p style="font-size:14px;color:#666;line-height:1.6">Yes! MindCare is completely free. You can register, chat, and take assessments at no cost.</p>
+                </div>
+                <div class="feature-card" style="padding:1.25rem 1.5rem">
+                    <h4 style="font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:6px">
+                        <i class="fa-solid fa-circle-question" style="color:#534AB7"></i> Is my data private?
+                    </h4>
+                    <p style="font-size:14px;color:#666;line-height:1.6">Absolutely. Your conversations are stored securely and never shared with any third party.</p>
+                </div>
+                <div class="feature-card" style="padding:1.25rem 1.5rem">
+                    <h4 style="font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:6px">
+                        <i class="fa-solid fa-circle-question" style="color:#534AB7"></i> Is MindCare a replacement for professional therapy?
+                    </h4>
+                    <p style="font-size:14px;color:#666;line-height:1.6">No. MindCare provides support and guidance but is not a substitute for professional mental health care. If you are in crisis, please contact a professional.</p>
+                </div>
+                <div class="feature-card" style="padding:1.25rem 1.5rem">
