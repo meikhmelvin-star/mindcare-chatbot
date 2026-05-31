@@ -1,4 +1,3 @@
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,47 +14,113 @@
         <div class="nav-logo">🧠 MindCare</div>
         <div class="nav-links">
             <a href="#features">Features</a>
-            <a href="#about">About</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
             <a href="/login" class="nav-btn-outline">Sign In</a>
             <a href="/register" class="nav-btn-fill">Get Started</a>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fa-solid fa-heart-pulse"></i> Free Mental Health Support
+    <!-- FULL SCREEN HERO -->
+    <section style="
+        min-height: 100vh;
+        width: 100%;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #534AB7 100%);
+        background-image: url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: overlay;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+    ">
+        <!-- DARK OVERLAY -->
+        <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(26,26,46,0.75)"></div>
+
+        <!-- CONTENT -->
+        <div style="position:relative;z-index:1;max-width:800px;width:100%">
+
+            <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);color:#fff;padding:8px 20px;border-radius:30px;font-size:14px;font-weight:500;margin-bottom:2rem;backdrop-filter:blur(10px)">
+                <i class="fa-solid fa-heart-pulse"></i> Free Mental Health Support — Available 24/7
             </div>
-            <h1>You Don't Have to Face It Alone</h1>
-            <p>MindCare is your personal mental health companion. Chat anytime, take assessments, track your mood and get the support you deserve.</p>
-            <div class="hero-buttons">
-                <a href="/register" class="btn-hero-primary">
-                    <i class="fa-solid fa-rocket"></i> Get Started Free
+
+            <h1 style="font-size:62px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:1.5rem;text-shadow:0 2px 20px rgba(0,0,0,0.3)">
+                You Don't Have to<br>
+                <span style="color:#AFA9EC">Face It Alone</span>
+            </h1>
+
+            <p style="font-size:20px;color:rgba(255,255,255,0.85);line-height:1.7;margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto">
+                MindCare is your personal mental health companion. Chat anytime, take assessments, track your mood and get the support you deserve.
+            </p>
+
+            <!-- BIG BUTTONS -->
+            <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:4rem">
+                <a href="/register" style="
+                    display:inline-flex;
+                    align-items:center;
+                    gap:12px;
+                    padding:20px 48px;
+                    background:#534AB7;
+                    color:#fff;
+                    border-radius:14px;
+                    font-size:20px;
+                    font-weight:700;
+                    text-decoration:none;
+                    box-shadow:0 8px 32px rgba(83,74,183,0.4);
+                    transition:transform 0.2s;
+                " onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
+                    <i class="fa-solid fa-user-plus"></i> Create Account
                 </a>
-                <a href="/login" class="btn-hero-secondary">
+                <a href="/login" style="
+                    display:inline-flex;
+                    align-items:center;
+                    gap:12px;
+                    padding:20px 48px;
+                    background:rgba(255,255,255,0.15);
+                    color:#fff;
+                    border:2px solid rgba(255,255,255,0.6);
+                    border-radius:14px;
+                    font-size:20px;
+                    font-weight:700;
+                    text-decoration:none;
+                    backdrop-filter:blur(10px);
+                    transition:transform 0.2s;
+                " onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">
                     <i class="fa-solid fa-right-to-bracket"></i> Sign In
                 </a>
             </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-num">24/7</span>
-                    <span class="stat-label">Available</span>
+
+            <!-- STATS -->
+            <div style="display:flex;gap:48px;justify-content:center;flex-wrap:wrap">
+                <div style="text-align:center">
+                    <div style="font-size:36px;font-weight:900;color:#fff">24/7</div>
+                    <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px">Always Available</div>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat-num">100%</span>
-                    <span class="stat-label">Private</span>
+                <div style="width:1px;background:rgba(255,255,255,0.2)"></div>
+                <div style="text-align:center">
+                    <div style="font-size:36px;font-weight:900;color:#fff">100%</div>
+                    <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px">Private & Secure</div>
                 </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat-num">Free</span>
-                    <span class="stat-label">Forever</span>
+                <div style="width:1px;background:rgba(255,255,255,0.2)"></div>
+                <div style="text-align:center">
+                    <div style="font-size:36px;font-weight:900;color:#fff">Free</div>
+                    <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px">Forever</div>
+                </div>
+                <div style="width:1px;background:rgba(255,255,255,0.2)"></div>
+                <div style="text-align:center">
+                    <div style="font-size:36px;font-weight:900;color:#fff">5+</div>
+                    <div style="font-size:14px;color:rgba(255,255,255,0.7);margin-top:4px">Support Tools</div>
                 </div>
             </div>
         </div>
-        <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=600&auto=format&fit=crop" alt="Mental Health Support" />
+
+        <!-- SCROLL DOWN ARROW -->
+        <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.5);font-size:24px;animation:bounce 2s infinite">
+            <i class="fa-solid fa-chevron-down"></i>
         </div>
     </section>
 
@@ -126,62 +191,3 @@
                 <div class="about-points">
                     <div class="about-point">
                         <i class="fa-solid fa-check-circle"></i>
-                        <span>Free and accessible to everyone</span>
-                    </div>
-                    <div class="about-point">
-                        <i class="fa-solid fa-check-circle"></i>
-                        <span>No sign-up required to explore</span>
-                    </div>
-                    <div class="about-point">
-                        <i class="fa-solid fa-check-circle"></i>
-                        <span>Evidence-based support strategies</span>
-                    </div>
-                    <div class="about-point">
-                        <i class="fa-solid fa-check-circle"></i>
-                        <span>Available 24 hours, 7 days a week</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA SECTION -->
-    <section class="cta-section">
-        <h2>Ready to Start Your Wellness Journey?</h2>
-        <p>Join MindCare today. It is free, private and always here for you.</p>
-        <a href="/register" class="btn-hero-primary" style="display:inline-flex;margin-top:1.5rem">
-            <i class="fa-solid fa-rocket"></i> Create Free Account
-        </a>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-logo">🧠 MindCare</div>
-            <p class="footer-text">Your mental health companion. Always here, always free.</p>
-            <div class="footer-links">
-                <a href="/login">Sign In</a>
-                <a href="/register">Register</a>
-<button onclick="toggleDark()" id="dark-btn" style="padding:7px 14px;border:1.5px solid #534AB7;border-radius:8px;background:none;color:#534AB7;font-size:13px;cursor:pointer">🌙</button>
-                <a href="#features">Features</a>
-                <a href="/about">About</a>
-                <a href="/contact">Contact</a>
-                <a href="/privacy">Privacy Policy</a>
-            </div>
-            <p class="footer-copy">© 2026 MindCare. Built with love for better mental health.</p>
-        </div>
-    </footer>
-<script>
-    if(localStorage.getItem('dark') === 'on') {
-        document.body.classList.add('dark');
-        document.getElementById('dark-btn').textContent = '☀️';
-    }
-    function toggleDark() {
-        document.body.classList.toggle('dark');
-        const isDark = document.body.classList.contains('dark');
-        localStorage.setItem('dark', isDark ? 'on' : 'off');
-        document.getElementById('dark-btn').textContent = isDark ? '☀️' : '🌙';
-    }
-</script>
-</body>
-</html>

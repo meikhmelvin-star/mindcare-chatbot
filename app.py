@@ -52,10 +52,7 @@ def init_db():
 
 @app.route('/')
 def home():
-    if 'user_id' in session:
-        return redirect(url_for('chat'))
     return render_template('home.html')
-
 @app.route('/about')
 def about():
     return render_template('about.html')
