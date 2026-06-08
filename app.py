@@ -50,9 +50,52 @@ def init_db():
     conn.commit()
     conn.close()
 
+def get_bot_reply(msg):
+    msg_lower = msg.lower()
+    if any(w in msg_lower for w in ['suicide', 'kill myself', 'end my life', 'want to die', 'cant go on', 'hurt myself', 'self harm']):
+        return "I am very concerned about what you just shared. Please reach out to Befrienders Kenya immediately on 0800 723 253 — they are available 24/7 and are here to help you. You are not alone."
+    elif any(w in msg_lower for w in ['anxious', 'anxiety', 'nervous', 'panic', 'worried', 'worry']):
+        return "I hear you. Anxiety can feel overwhelming. Try taking 5 slow deep breaths — inhale for 4 counts, hold for 4, exhale for 6. Would you like to talk more about what is causing it?"
+    elif any(w in msg_lower for w in ['sleep', 'insomnia', 'tired', 'exhausted', 'cannot sleep', 'cant sleep']):
+        return "Sleep problems really affect everything. Try keeping a consistent bedtime, avoiding screens 1 hour before bed and keeping your room cool and dark. What does your bedtime routine look like?"
+    elif any(w in msg_lower for w in ['sad', 'depress', 'hopeless', 'empty', 'cry', 'crying', 'unhappy', 'miserable']):
+        return "I am sorry you are feeling this way. Your feelings are valid and it takes courage to share them. Would you like to tell me more about what has been going on?"
+    elif any(w in msg_lower for w in ['stress', 'stressed', 'pressure', 'overwhelm', 'too much', 'cant cope']):
+        return "Feeling stressed or overwhelmed is a sign you are carrying a lot right now. Try writing everything on your mind down, then pick just one small thing to tackle first. What is weighing on you most?"
+    elif any(w in msg_lower for w in ['motivat', 'lazy', 'stuck', 'unmotivated', 'procrastinat', 'give up']):
+        return "Lack of motivation often means your mind needs rest or a fresh sense of purpose. Start tiny — just 5 minutes on something you care about. What area of your life feels most stuck right now?"
+    elif any(w in msg_lower for w in ['angry', 'anger', 'frustrated', 'furious', 'mad', 'rage']):
+        return "Anger is a normal emotion and it is okay to feel it. Try stepping away from the situation, taking deep breaths and giving yourself time to calm down before responding. What triggered these feelings?"
+    elif any(w in msg_lower for w in ['lonely', 'alone', 'isolated', 'no friends', 'nobody cares']):
+        return "Feeling lonely is one of the most painful human experiences. You are not alone — I am here with you right now. Is there anyone in your life you feel you could reach out to today?"
+    elif any(w in msg_lower for w in ['fear', 'scared', 'afraid', 'phobia', 'terrified']):
+        return "Fear can feel very real and powerful. Acknowledging what you are afraid of is the first brave step. Would you like to share what is making you feel scared?"
+    elif any(w in msg_lower for w in ['confidence', 'self esteem', 'worthless', 'not good enough', 'failure', 'loser']):
+        return "You are not defined by your mistakes or your struggles. Every person has unique value and strength. What is one thing you like about yourself, no matter how small?"
+    elif any(w in msg_lower for w in ['relationship', 'breakup', 'heartbreak', 'divorce', 'partner', 'boyfriend', 'girlfriend']):
+        return "Relationship pain can be deeply difficult to carry. It is okay to grieve and take time to heal. Would you like to talk about what happened?"
+    elif any(w in msg_lower for w in ['family', 'parents', 'mother', 'father', 'siblings', 'home']):
+        return "Family situations can be complicated and emotionally draining. Your feelings about your family are valid. Would you like to share more about what is going on at home?"
+    elif any(w in msg_lower for w in ['school', 'study', 'exam', 'university', 'college', 'fail', 'grades']):
+        return "Academic pressure can be really tough. Remember that your grades do not define your worth. Try breaking your study into small manageable chunks and take regular breaks. What subject or task feels most overwhelming?"
+    elif any(w in msg_lower for w in ['work', 'job', 'boss', 'colleague', 'fired', 'unemployed', 'career']):
+        return "Work stress is very common and can really affect your mental health. It is important to set boundaries between work and personal time. What has been happening at work?"
+    elif any(w in msg_lower for w in ['happy', 'good', 'great', 'better', 'fine', 'wonderful', 'amazing', 'excited']):
+        return "That is wonderful to hear! Positive moments are so important. What has been going well for you lately?"
+    elif any(w in msg_lower for w in ['thank', 'thanks', 'helpful', 'appreciate']):
+        return "You are very welcome! I am always here whenever you need to talk. Remember, reaching out is a sign of strength."
+    elif any(w in msg_lower for w in ['hello', 'hi', 'hey', 'good morning', 'good evening', 'good afternoon']):
+        return "Hello! I am MindCare, your mental health support assistant. I am here to listen and support you. How are you feeling today?"
+    elif any(w in msg_lower for w in ['what is', 'what are', 'how do', 'how can', 'explain', 'tell me', 'define']):
+        return "That is a great question. Mental health covers our emotional, psychological and social wellbeing. I am here to help you understand and navigate any challenges you are facing. Could you tell me more specifically what you would like to know?"
+    elif any(w in msg_lower for w in ['tip', 'advice', 'help', 'suggest', 'recommend']):
+        return "Here are some helpful tips: practice deep breathing daily, get 7 to 9 hours of sleep, exercise for at least 30 minutes, stay connected with people you trust, and limit social media use. Which of these would you like to explore more?"
+    else:
+        return "Thank you for sharing that with me. I am here to listen and support you without any judgment. Could you tell me a little more about how you have been feeling lately?"
 @app.route('/')
 def home():
     return render_template('home.html')
+
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -127,27 +170,6 @@ def chat():
                             (session['user_id'],)).fetchall()
     conn.close()
     return render_template('chat.html', messages=messages, name=session['user_name'])
-
-def get_bot_reply(msg):
-    msg = msg.lower()
-    if any(w in msg for w in ['anxious', 'anxiety', 'nervous', 'panic']):
-        return "I hear you. Anxiety can feel overwhelming. Try taking 5 slow deep breaths — inhale for 4 counts, hold for 4, exhale for 6. Would you like to talk more about what is causing it?"
-    elif any(w in msg for w in ['sleep', 'insomnia', 'tired', 'exhausted']):
-        return "Sleep problems really affect everything. Try keeping a consistent bedtime and avoiding screens 1 hour before bed. What does your bedtime routine look like?"
-    elif any(w in msg for w in ['sad', 'depress', 'hopeless', 'empty', 'cry']):
-        return "I am sorry you are feeling this way. Your feelings are valid. Would you like to share more about what has been going on?"
-    elif any(w in msg for w in ['stress', 'stressed', 'pressure']):
-        return "Stress is your mind signal that something needs attention. Regular breaks and talking about it really help. What has been most stressful lately?"
-    elif any(w in msg for w in ['overwhelm', 'too much', 'cant cope']):
-        return "Feeling overwhelmed is a sign you are carrying a lot. Try writing everything down, then pick just one small thing to tackle first. What is weighing on you most?"
-    elif any(w in msg for w in ['motivat', 'lazy', 'stuck', 'unmotivated']):
-        return "Lack of motivation often means your mind needs rest or a fresh purpose. Start tiny, just 5 minutes on something you care about. What feels most stuck?"
-    elif any(w in msg for w in ['happy', 'good', 'great', 'better', 'fine']):
-        return "That is wonderful to hear! Positive moments matter. What has been going well for you?"
-    elif any(w in msg for w in ['hello', 'hi', 'hey']):
-        return "Hello! I am MindCare, your mental health support assistant. How are you feeling today?"
-    else:
-        return "Thank you for sharing that with me. I am here to listen. Can you tell me more about how you have been feeling?"
 
 @app.route('/assessment', methods=['GET', 'POST'])
 def assessment():
@@ -311,6 +333,7 @@ def mood():
                            mood_counts=mood_counts,
                            most_common=most_common,
                            success=success)
+
 @app.route('/admin')
 def admin():
     if 'user_id' not in session:
@@ -344,9 +367,11 @@ def admin():
                            total_chats=total_chats,
                            high_risk=high_risk,
                            high_risk_users=high_risk_users)
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
